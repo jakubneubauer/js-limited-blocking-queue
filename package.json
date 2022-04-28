@@ -1,0 +1,14 @@
+{
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "build": "esbuild ./index.js --format=esm --bundle --outfile=./dist/index.js --platform=node --target=node16.3 --minify",
+    "perf": "node perf.js"
+  },
+  "dependencies": {
+    "web-streams-polyfill": "^3.2.0"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
+  }
+}
