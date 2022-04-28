@@ -1,7 +1,5 @@
 # limited-blocking-queue
 
-# async-blocking-queue
-
 Javascript implementation of queue with asynchronous push/pull and with limit
 of stored items. Operation `pull` returns a promise fulfilled whenever
 the item will be available (possibly immediately). The `push` operation
@@ -17,7 +15,7 @@ Example of Usage
 ------------------
 
 ```javascript
-import {LimitedBlockingQueue} from 'limited-blocking-queue';
+import {LimitedBlockingQueue} from '@jakubneubauer/limited-blocking-queue';
 
 var queue = new LimitedBlockingQueue();
 
