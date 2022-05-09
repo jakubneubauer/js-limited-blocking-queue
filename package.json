@@ -1,7 +1,8 @@
 {
   "name": "@jakubneubauer/limited-blocking-queue",
   "main": "dist/index.js",
-  "version": "0.0.6",
+  "types": "dist/index.d.ts",
+  "version": "0.0.7",
   "type": "module",
   "scripts": {
     "test": "node node_modules/jest/bin/jest.js --config jestconfig.json",
@@ -9,6 +10,7 @@
     "perf": "node perf.js"
   },
   "repository": "jakubneubauer/js-limited-blocking-queue",
+  "license": "ISC",
   "devDependencies": {
     "@types/jest": "^27.5.0",
     "jest": "^28.0.3",
