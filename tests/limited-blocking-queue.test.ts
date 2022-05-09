@@ -1,4 +1,4 @@
-import {LimitedBlockingQueue} from "./limited-blocking-queue.js";
+import {LimitedBlockingQueue} from "../src/limited-blocking-queue";
 
 test('push before pull', async () => {
     let q = new LimitedBlockingQueue(2);

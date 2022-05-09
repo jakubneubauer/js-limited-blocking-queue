@@ -1,14 +1,18 @@
 {
   "name": "@jakubneubauer/limited-blocking-queue",
   "main": "dist/index.js",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "type": "module",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "build": "esbuild ./index.js --format=esm --bundle --outfile=./dist/index.js --platform=node --target=node16.3 --minify",
+    "test": "node node_modules/jest/bin/jest.js --config jestconfig.json",
+    "build": "tsc",
     "perf": "node perf.js"
   },
+  "repository": "jakubneubauer/js-limited-blocking-queue",
   "devDependencies": {
-    "jest": "^27.5.1"
+    "@types/jest": "^27.5.0",
+    "jest": "^28.0.3",
+    "ts-jest": "^28.0.1",
+    "typescript": "^4.6.4"
   }
 }
