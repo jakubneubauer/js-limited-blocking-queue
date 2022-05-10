@@ -1,1 +1,1 @@
-export * from "./limited-blocking-queue";
+export * from "./limited-blocking-queue.js";
