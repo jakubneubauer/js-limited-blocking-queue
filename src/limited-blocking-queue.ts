@@ -2,11 +2,11 @@ export class LimitedBlockingQueue {
 
     private closed: boolean;
     private readonly limit: number;
-    private readonly queue: any[];
+    private queue: any[];
     // list of resolve,reject tuples.
-    private readonly notEmptyResolves: ([(_:any)=>any, (_:any)=>any])[];
+    private notEmptyResolves: ([(_:any)=>any, (_:any)=>any])[];
     // list of resolve,reject tuples.
-    private readonly notFullResolves: ([(_:any)=>any, (_:any)=>any])[];
+    private notFullResolves: ([(_:any)=>any, (_:any)=>any])[];
 
     constructor(size = 1) {
         this.closed = false;
@@ -44,10 +44,10 @@ export class LimitedBlockingQueue {
 
     // Asynchronous. Returns promise that will be resolved with the object pulled from the queue.
     pull() {
-        if(this.closed) {
-            return Promise.reject(new Error("Queue is closed"));
-        }
         if (this.queue.length === 0) {
+            if(this.closed) {
+                return Promise.reject(new Error("Queue is closed"));
+            }
             return new Promise((resolve, reject) => {
                 this.notEmptyResolves.push([resolve, reject]);
             });
@@ -59,12 +59,25 @@ export class LimitedBlockingQueue {
             return Promise.resolve(item);
         }
     }
-    
-    close() {
+
+    /**
+     * Closes the queue. Rejects all waiting operations.
+     * If queue is not empty and allowToPullPendingItems is true, subsequent pulls will get the remaining items.
+     * If allowToPullPendingItems is false (default), the queue is cleared.
+     * However, subsequent calls will fail.
+     * 
+     * @param allowToPullPendingItems If false, the queue is emptied.
+     */
+    close(allowToPullPendingItems = false) {
         this.closed = true;
         // reject waiting promises - both the waiting pull and push operations
         this.notFullResolves.forEach(([_,reject]) => {reject(new Error("Queue is closed"))});
+        this.notFullResolves = [];
         this.notEmptyResolves.forEach(([_,reject]) => {reject(new Error("Queue is closed"))});
+        this.notEmptyResolves = [];
+        if (!allowToPullPendingItems) {
+            this.queue = [];
+        }
     }
 
     get length() {
