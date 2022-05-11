@@ -1,6 +1,7 @@
 export class LimitedBlockingQueue {
 
     private closed: boolean;
+    private closeReason: any;
     private readonly limit: number;
     private queue: any[];
     // list of resolve,reject tuples.
@@ -20,7 +21,7 @@ export class LimitedBlockingQueue {
     // It could be not immediate, when the buffer is full.
     push(item: any): Promise<any> {
         if(this.closed) {
-            return Promise.reject(new Error("Queue is closed"));
+            return Promise.reject(this.closeReason);
         }
         if (this.notEmptyResolves.length) {
             // assert(this.queue.length === 0)
@@ -66,14 +67,16 @@ export class LimitedBlockingQueue {
      * If allowToPullPendingItems is false (default), the queue is cleared.
      * However, subsequent calls will fail.
      * 
+     * @param reason If set, this will be used to reject pending operations promises.
      * @param allowToPullPendingItems If false, the queue is emptied.
      */
-    close(allowToPullPendingItems = false) {
+    close(reason: any = undefined, allowToPullPendingItems = false) {
         this.closed = true;
+        this.closeReason = reason ?? new Error("Queue is closed");
         // reject waiting promises - both the waiting pull and push operations
-        this.notFullResolves.forEach(([_,reject]) => {reject(new Error("Queue is closed"))});
+        this.notFullResolves.forEach(([_,reject]) => {reject(this.closeReason)});
         this.notFullResolves = [];
-        this.notEmptyResolves.forEach(([_,reject]) => {reject(new Error("Queue is closed"))});
+        this.notEmptyResolves.forEach(([_,reject]) => {reject(this.closeReason)});
         this.notEmptyResolves = [];
         if (!allowToPullPendingItems) {
             this.queue = [];
