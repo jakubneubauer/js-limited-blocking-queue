@@ -50,7 +50,7 @@ test('close will reject all waiting push operations', async () => {
 test('close with allowing pull remaining items', async () => {
     let q = new LimitedBlockingQueue(1);
     await q.push(1);
-    q.close(true);
+    q.close(null, true);
     expect(await q.pull()).toBe(1);
     await expect(q.pull()).rejects.toThrow('Queue is closed');
 });
