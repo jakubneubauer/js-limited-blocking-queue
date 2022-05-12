@@ -9,7 +9,10 @@
     "build": "tsc",
     "perf": "node perf.js"
   },
-  "repository": "jakubneubauer/js-limited-blocking-queue",
+  "repository": {
+    "type" : "git",
+    "url" : "http://github.com/jakubneubauer/js-limited-blocking-queue"
+  },
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^27.5.0",
