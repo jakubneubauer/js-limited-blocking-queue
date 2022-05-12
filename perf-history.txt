@@ -1,0 +1,5 @@
+Version 1.0.4
+1000 push/pull on queue size 100: result: {"rate":3960.6429207760107,"count":12287,"time":3102.27411200013}
+
+Version 1.0.5
+1000 push/pull on queue size 100: result: {"rate":4775.592205490076,"count":14335,"time":3001.721961000003}
